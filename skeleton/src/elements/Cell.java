@@ -1,26 +1,33 @@
 package elements;
 
-import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * The boundary of a cell is a closed polyhedron with is not self-intersecting.
+ * A polyhedron consisting of faces, edges, nodes.
+ * @author rozhk
+ *
+ */
 public class Cell {
 	
 	public String name;
 	public Set<Face> faces;
-	public Set<String> faceNames;
 	
+	/**
+	 * CCreates new cell with name and faces
+	 * @param name
+	 * @param faces - set of faces
+	 */
 	public Cell(String name, Set<Face> faces) {
 		this.name = name;
 		this.faces = faces;
 	}
-	
-	
-	
-	public Cell(String name) {
-		this.name = name;
-		faceNames = new HashSet<>();
-	}
-	
+
+	/**
+	 * Method for convenient display of results. Where the one cell is
+	 * containing all it's inner elements.
+	 * @return
+	 */
 	public String toString2() {
 		String result = this.name;
 		for (Face face : this.faces)
@@ -28,10 +35,17 @@ public class Cell {
 		return result;
 	}
 	
+	/**
+	 * Method for display only the cell's name.
+	 */
 	public String toString() {
 		return this.name;
 		}	
 
+	/**
+	 * returns the face set
+	 * @return
+	 */
 	public Set<Face> getFaces() {
 		return this.faces;
 	}
