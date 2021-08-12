@@ -102,7 +102,7 @@ public class LineReader {
 				//adding a reading edge to a set, before adding program is searching the edge into the edgemap by edge's name 
 				 edges.add(edgemap.get(lines[k]));
 			 }
-			 facemap.put(name, new Face(name, edges));//putting the read item into a facemap, key = name : value = object		 
+			 facemap.put(name, new Face(name, edges));//putting the read item into a facemap, key = name : value = object
 		 }
 		 
 		 else if(lines[0].equals("cell")) {
