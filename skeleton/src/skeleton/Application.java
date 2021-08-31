@@ -46,7 +46,6 @@ public class Application {
 		//Display.PrintCellEdgeTable(LineReader.cellmap); //printing calculated cell:edge topological table
 		//Display.PrintCellNodeTable(LineReader.cellmap); //printing calculated cell:node topological table
 		Display.PrintFaceNodeTable(LineReader.facemap); //printing calculated face:node topological table
-		System.out.println("Hello");
 	}
 	
 
