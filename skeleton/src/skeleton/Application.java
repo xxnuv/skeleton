@@ -20,7 +20,7 @@ import elements.Node;
  *
  */
 public class Application {
-	
+	//
 	public static String dataFileName = "the_room";
 
 	public static void main(String[] args) {
