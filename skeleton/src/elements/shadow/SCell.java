@@ -1,12 +1,13 @@
 package elements.shadow;
 
 import java.util.HashSet;
+import java.util.Set;
 
 public class SCell {
 	public String cellName;
-	public HashSet<String> setNames = new HashSet<>();
+	public Set<String> setNames = new HashSet<>();
 	
-	public SCell(String cellName, HashSet<String> setNames) {
+	public SCell(String cellName, Set<String> setNames) {
 		this.cellName = cellName;
 		this.setNames = setNames;
 	}	

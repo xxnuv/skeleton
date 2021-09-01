@@ -20,7 +20,7 @@ import elements.Node;
  *
  */
 public class Application {
-	public static String dataFileName = "the_room";
+	public static String dataFileName = "cube_free_order";
 
 	public static void main(String[] args) {
 		//setup full path to the file with construction commands
@@ -42,8 +42,8 @@ public class Application {
 		//Display.printFace(LineReader.facemap); //printing all faces with edges
 		//Display.printCell(LineReader.cellmap); //printing all cells with faces
 		
-		//Display.PrintCellEdgeTable(LineReader.cellmap); //printing calculated cell:edge topological table
-		//Display.PrintCellNodeTable(LineReader.cellmap); //printing calculated cell:node topological table
+		Display.PrintCellEdgeTable(LineReader.cellmap); //printing calculated cell:edge topological table
+		Display.PrintCellNodeTable(LineReader.cellmap); //printing calculated cell:node topological table
 		Display.PrintFaceNodeTable(LineReader.facemap); //printing calculated face:node topological table
 	}
 	

@@ -11,7 +11,6 @@ public class Edge {
 	
 	public String name;
 	public Node node1, node2;
-	public String nameNode1, nameNode2;
 	
 	/**
 	 * Create Edge with defined input nodes names.
@@ -23,18 +22,6 @@ public class Edge {
 		this.name = name;
 		this.node1 = node1;
 		this.node2 = node2;
-	}
-
-	/**
-	 * Create Edge with defined input nodes names.
-	 * @param name
-	 * @param nameNode1
-	 * @param nameNode2
-	 */
-	public Edge(String name, String nameNode1, String nameNode2) {
-		this.name = name;
-		this.nameNode1 = nameNode1;
-		this.nameNode2 = nameNode2;
 	}
 	
 	/**
