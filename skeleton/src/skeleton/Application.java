@@ -42,9 +42,24 @@ public class Application {
 		//Display.printFace(LineReader.facemap); //printing all faces with edges
 		//Display.printCell(LineReader.cellmap); //printing all cells with faces
 		
-		Display.PrintCellEdgeTable(LineReader.cellmap); //printing calculated cell:edge topological table
-		Display.PrintCellNodeTable(LineReader.cellmap); //printing calculated cell:node topological table
-		Display.PrintFaceNodeTable(LineReader.facemap); //printing calculated face:node topological table
+		
+		
+		//Display.printNodeNodeTable(LineReader.nodemap);
+		//Display.printNodeEdgeTable(LineReader.edgemap);
+		//Display.printNodeFaceTable(LineReader.facemap);
+		//Display.printNodeCellTable(LineReader.cellmap);
+		//Display.printEdgeNodeTable(LineReader.edgemap);
+		//Display.printEdgeEdgeTable(LineReader.edgemap);
+		//Display.printEdgeFaceTable(LineReader.facemap);
+		//Display.printEdgeCellTable(LineReader.cellmap);
+		//Display.printFaceNodeTable(LineReader.facemap); //printing calculated face:node topological table
+		//Display.printFaceEdgeTable(LineReader.facemap);
+		//Display.printFaceFaceTable(LineReader.facemap);
+		//Display.printFaceCellTable(LineReader.cellmap);
+		//Display.printCellNodeTable(LineReader.cellmap); //printing calculated cell:node topological table
+		//Display.printCellEdgeTable(LineReader.cellmap); //printing calculated cell:edge topological table
+		//Display.printCellFaceTable(LineReader.cellmap);
+		//Display.printCellCellTable(LineReader.cellmap);
 	}
 	
 

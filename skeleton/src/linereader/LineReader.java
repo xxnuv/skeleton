@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -16,6 +17,7 @@ import elements.Node;
 import elements.shadow.SCell;
 import elements.shadow.SEdge;
 import elements.shadow.SFace;
+import skeleton.Display;
 
 /**
  * An object of this class reads lines from a file. Each line contain parameters of
@@ -41,6 +43,9 @@ public class LineReader {
 	public static Set <SEdge> edgeSet = new HashSet<>();
 	public static Set <SFace> faceSet = new HashSet<>();
 	public static Set <SCell> cellSet = new HashSet<>();
+	
+	//contains commands for constructing topological tables
+	public static ArrayList<String> construct = new ArrayList<>();
 	
 	/**
 	 * Creating new lineReader. This version doesn't have error handling logic.
@@ -78,60 +83,50 @@ public class LineReader {
 			 * constructing edgemap, facemap, cellmap using shadows structures.
 			 */
 			shadowSearch(edgeSet, faceSet, cellSet);
+			//construction tables
+			for(String command : construct) {
+				switch (command) {
+				case "nodenode": Display.printNodeNodeTable(nodemap);
+					break;
+				case "nodeedge": Display.printNodeEdgeTable(edgemap);
+					break;
+				case "nodeface": Display.printNodeFaceTable(facemap);
+					break;
+				case "nodecell": Display.printNodeCellTable(cellmap);
+					break;
+				case "edgenode": Display.printEdgeNodeTable(edgemap);
+					break;
+				case "edgeedge": Display.printEdgeEdgeTable(edgemap);
+					break;
+				case "edgeface": Display.printEdgeFaceTable(facemap);
+					break;
+				case "edgecell": Display.printEdgeCellTable(cellmap);
+					break;
+				case "facenode": Display.printFaceNodeTable(facemap);
+					break;
+				case "faceedge": Display.printFaceEdgeTable(facemap);
+					break;
+				case "faceface": Display.printFaceFaceTable(facemap);
+					break;
+				case "facecell": Display.printFaceCellTable(cellmap);
+					break;
+				case "cellnode": Display.printCellNodeTable(cellmap);
+					break;
+				case "celledge": Display.printCellEdgeTable(cellmap);
+					break;
+				case "cellface": Display.printCellFaceTable(cellmap);
+					break;
+				case "cellcell": Display.printCellCellTable(cellmap);
+					break;
+				default:
+					System.out.println("syntax error in command arguments");
+					break;
+				}
+			}
 			return false;
 		}
 	}
-	
-	/**
-	 * This method determines which object will be created after reading the line.
-	 * without using the Shadows objects. Only consecutive order.
-	 */
-	public void directRead() {
-		String currentLine = line;
-		currentLine = currentLine.replaceAll(" ", "");// remove all spaces
-		// Create an array of strings from the original string using delimiters:
-		// ")","(",","
-		// if first element from array contain command-word: node, edge, face, cell
-		String[] lines = currentLine.split("\\)|\\(|\\,");
-		 if (lines[0].equals("node")) {
-			 String name = lines[1]; //lines[1] contains the node's name
-			 Double x1 = Double.parseDouble(lines[2]); //lines[2] contains the node's coord
-			 Double x2 = Double.parseDouble(lines[3]); //lines[3] contains the node's coord
-			 Double x3 = Double.parseDouble(lines[4]); //lines[4] contains the node's coord
-			 nodemap.put(name, new Node(name, x1, x2, x3));//putting the read item into a nodemap, key = name : value = object
-		 }
-		 
-		 else if(lines[0].equals("edge")) {
-			 String name = lines[1]; //lines[1] contains the edge's name
-			 String nameNode1 = lines[2]; //lines[2] contains the node1 name
-			 Node node1 = nodemap.get(nameNode1); //search for a node1 by its name in a nodemap
-			 String nameNode2 = lines[3]; //lines[3] contains the node2 name
-			 Node node2 = nodemap.get(nameNode2); //search for a node2 by its name in a nodemap
-			 edgemap.put(name, new Edge(name, node1, node2));//putting the read item into a edgemap, key = name : value = object
-		 }
-		 
-		 else if(lines[0].equals("face")) {
-			 String name = lines[1]; //lines[1] contains the face's name
-			 Set<Edge> edges = new HashSet<>();//creating an set into which we will write the reading edges
-			 //loop for reading edges
-			 for (int k = 2; k < lines.length; k++) {
-				//adding a reading edge to a set, before adding program is searching the edge into the edgemap by edge's name 
-				 edges.add(edgemap.get(lines[k]));
-			 }
-			 facemap.put(name, new Face(name, edges));//putting the read item into a facemap, key = name : value = object
-		 }
-		 
-		 else if(lines[0].equals("cell")) {
-			 String name = lines[1];//lines[1] contains the cell's name
-			 Set<Face> faces = new HashSet<>();//creating an set into which we will write the reading faces
-			 for (int k = 2; k < lines.length; k++) {
-				//adding a reading face to a set, before adding program is searching the face into the facemap by edge's name 
-				 faces.add(facemap.get(lines[k]));
-			 }
-			 cellmap.put(name, new Cell(name, faces));//putting the read item into a cellmap, key = name : value = object		 
-		 }
-	}
-	
+		
 	/**
 	 * This method determines which object will be created after reading the line with using the Shadow's Object.
 	 */
@@ -163,7 +158,11 @@ public class LineReader {
 				namesFace.add(lines[k]); //adding a reading face to a set
 			}
 			cellSet.add(new SCell(lines[1], namesFace)); //put the new Shadow Cell to cellSet
-		}		
+		}
+		else if (lines[0].equals("table")) {
+			String instruction = lines[1]+lines[2];
+			construct.add(instruction);//add instruction to ArrayList for constructing topological tables
+		}
 	}
 	/**
 	 * This method is searching real elements using shadows objects set and constructing edgemap, facemap, cellmap.
