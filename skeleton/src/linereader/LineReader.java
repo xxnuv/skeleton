@@ -83,42 +83,48 @@ public class LineReader {
 			 * constructing edgemap, facemap, cellmap using shadows structures.
 			 */
 			shadowSearch(edgeSet, faceSet, cellSet);
-			//construction tables
+			
+			/*
+			 * construction tables
+			 * reading commands from ArrayList construct. lines[1] and lines[2] are arguments of table command. Command table means that 
+			 * program will construct topological tables of the form lines[1]:lines[2].
+			 */
 			for(String command : construct) {
 				switch (command) {
-				case "nodenode": Display.printNodeNodeTable(nodemap);
+				case "nodenode": Display.printNodeNodeTable(nodemap);//if lines[1]=="node" and lines[2]=="node", program calls printNodeNodeTable
 					break;
-				case "nodeedge": Display.printNodeEdgeTable(edgemap);
+				case "nodeedge": Display.printNodeEdgeTable(edgemap);//if lines[1]=="node" and lines[2]=="edge", program calls printNodeEdgeTable
 					break;
-				case "nodeface": Display.printNodeFaceTable(facemap);
+				case "nodeface": Display.printNodeFaceTable(facemap);//if lines[1]=="node" and lines[2]=="face", program calls printNodeFaceTable
 					break;
-				case "nodecell": Display.printNodeCellTable(cellmap);
+				case "nodecell": Display.printNodeCellTable(cellmap);//if lines[1]=="node" and lines[2]=="cell", program calls printNodeCellTable
 					break;
-				case "edgenode": Display.printEdgeNodeTable(edgemap);
+				case "edgenode": Display.printEdgeNodeTable(edgemap);//if lines[1]=="edge" and lines[2]=="node", program calls printEdgeNodeTable
 					break;
-				case "edgeedge": Display.printEdgeEdgeTable(edgemap);
+				case "edgeedge": Display.printEdgeEdgeTable(edgemap);//if lines[1]=="edge" and lines[2]=="edge", program calls printEdgeEdgeTable
 					break;
-				case "edgeface": Display.printEdgeFaceTable(facemap);
+				case "edgeface": Display.printEdgeFaceTable(facemap);//if lines[1]=="edge" and lines[2]=="face", program calls printEdgeFaceTable
 					break;
-				case "edgecell": Display.printEdgeCellTable(cellmap);
+				case "edgecell": Display.printEdgeCellTable(cellmap);//if lines[1]=="edge" and lines[2]=="cell", program calls printEdgeCellTable
 					break;
-				case "facenode": Display.printFaceNodeTable(facemap);
+				case "facenode": Display.printFaceNodeTable(facemap);//if lines[1]=="face" and lines[2]=="node", program calls printFaceNodeTable
 					break;
-				case "faceedge": Display.printFaceEdgeTable(facemap);
+				case "faceedge": Display.printFaceEdgeTable(facemap);//if lines[1]=="face" and lines[2]=="edge", program calls printFaceEdgeTable
 					break;
-				case "faceface": Display.printFaceFaceTable(facemap);
+				case "faceface": Display.printFaceFaceTable(facemap);//if lines[1]=="face" and lines[2]=="face", program calls printFaceFaceTable
 					break;
-				case "facecell": Display.printFaceCellTable(cellmap);
+				case "facecell": Display.printFaceCellTable(cellmap);//if lines[1]=="face" and lines[2]=="cell", program calls printFaceCellTable
 					break;
-				case "cellnode": Display.printCellNodeTable(cellmap);
+				case "cellnode": Display.printCellNodeTable(cellmap);//if lines[1]=="cell" and lines[2]=="node", program calls printCellNodeTable
 					break;
-				case "celledge": Display.printCellEdgeTable(cellmap);
+				case "celledge": Display.printCellEdgeTable(cellmap);//if lines[1]=="cell" and lines[2]=="edge", program calls printCellEdgeTable
 					break;
-				case "cellface": Display.printCellFaceTable(cellmap);
+				case "cellface": Display.printCellFaceTable(cellmap);//if lines[1]=="cell" and lines[2]=="face", program calls printCellFaceTable
 					break;
-				case "cellcell": Display.printCellCellTable(cellmap);
+				case "cellcell": Display.printCellCellTable(cellmap);//if lines[1]=="cell" and lines[2]=="cell", program calls printCellCellTable
 					break;
 				default:
+					//if lines[1] or lines[2] didn't contain allowed commands("node", "edge", "face", "cell"), LR will give 
 					System.out.println("syntax error in command arguments");
 					break;
 				}
@@ -159,8 +165,8 @@ public class LineReader {
 			}
 			cellSet.add(new SCell(lines[1], namesFace)); //put the new Shadow Cell to cellSet
 		}
-		else if (lines[0].equals("table")) {
-			String instruction = lines[1]+lines[2];
+		else if (lines[0].equals("table")) { //reading command for construction topological tables
+			String instruction = lines[1]+lines[2]; //saving commands arguments to String's variable
 			construct.add(instruction);//add instruction to ArrayList for constructing topological tables
 		}
 	}

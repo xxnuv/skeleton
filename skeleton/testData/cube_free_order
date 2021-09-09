@@ -26,3 +26,6 @@ edge, e6, n6, n7
 node, n1, 0, 0, 0
 node, n2, 0, 1, 0
 table, cell, node
+table, node, cell
+table, face, node
+table, edge, cell

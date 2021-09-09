@@ -90,7 +90,10 @@ public class Display {
 	 * @param map
 	 */
 	public static void printNodeNodeTable(Map<String, Node> map) {
+		//Calculating node : node topological table
 		System.out.println("\nNode-Node table");
+		//read the nodemap that is created after reading the file
+		//printing this map as key : value
 		for(Map.Entry<String, Node> pair : map.entrySet()) {
 			String key = pair.getKey();
 			Node value = pair.getValue();
@@ -102,26 +105,29 @@ public class Display {
 	 * @param map
 	 */
 	public static void printNodeEdgeTable(Map<String, Edge> map) {
-		Map<String, Set<Edge>> tmp = new HashMap<>();
+		//Calculating node : edge topological table
+		Map<String, Set<Edge>> tmp = new HashMap<>(); //creating the map(key = name : value = set of edges)
+		// loop in every edge
 		for (Map.Entry<String, Edge> pair : map.entrySet()) {
-			Edge value = pair.getValue();
-			if (tmp.containsKey(value.node1.name)) {
-				tmp.get(value.node1.name).add(value);
+			Edge value = pair.getValue(); //reading the edge object itself
+			if (tmp.containsKey(value.node1.name)) {  //if tmp contained value.node1.name
+				tmp.get(value.node1.name).add(value); //program will add(value) to Set<Edge> for current node1
 			}
 			else {
-				Set<Edge> set = new HashSet<>();
-				set.add(value);
-				tmp.put(value.node1.name, set);				
+				Set<Edge> set = new HashSet<>(); //creating set<Edge> for current node1
+				set.add(value);					 //add(value) to set
+				tmp.put(value.node1.name, set);	 //putting the calculated item into a map, key = node's name : value = set of edges		
 			}
-			if (tmp.containsKey(value.node2.name)) {
-				tmp.get(value.node2.name).add(value);
+			if (tmp.containsKey(value.node2.name)) {  //if tmp contained value.node2.name
+				tmp.get(value.node2.name).add(value); //program wiil add(value) to Set<Edge> for current node2
 			}
 			else {
-				Set<Edge> set = new HashSet<>();
-				set.add(value);
-				tmp.put(value.node2.name, set);				
+				Set<Edge> set = new HashSet<>(); //creating set<Edge> for current node2
+				set.add(value);					 //add(value) to set
+				tmp.put(value.node2.name, set);  //putting the calculated item into a map, key = node's name : value = set of edges					
 			}
 		}
+		//printing map as topological table (key = node's name : value = set of edges)
 		System.out.println("\nNode-Edge table");
 		for(Map.Entry<String, Set<Edge>> couple : tmp.entrySet()) {
 			String key = couple.getKey();
@@ -134,24 +140,30 @@ public class Display {
 	 * @param map
 	 */
 	public static void printNodeFaceTable(Map<String, Face> map) {
-		Map<String, Set<Face>> tmp = new HashMap<>();
+		//Calculating node : face topological table
+		Map<String, Set<Face>> tmp = new HashMap<>(); //creating the map(key = name : value = set of faces)
+		//loop in every face
 		for (Map.Entry<String, Face> pair : map.entrySet()) {
-			Face value = pair.getValue();
+			Face value = pair.getValue(); //reading the face object itself
+			//loop in every edge
 			for(Edge edge : value.edges) {
+				//if tmp contained value.node1.name, program will add(value) to Set<Face> for current node1
 				if(tmp.containsKey(edge.node1.name)) tmp.get(edge.node1.name).add(value);
 				else {
-					Set<Face> set = new HashSet<>();
-					set.add(value);
-					tmp.put(edge.node1.name, set);
+					Set<Face> set = new HashSet<>(); //creating set<Face> for current node1 
+					set.add(value);					 //add(value) to set
+					tmp.put(edge.node1.name, set);   //putting the calculated item into a map, key = node's name : value = set of faces
 				}
+				//if tmp contained value.node2.name, program will add(value) to Set<Face> for current node2
 				if(tmp.containsKey(edge.node2.name)) tmp.get(edge.node2.name).add(value);
 				else {
-					Set<Face> set = new HashSet<>();
-					set.add(value);
-					tmp.put(edge.node2.name, set);
+					Set<Face> set = new HashSet<>(); //creating set<Face> for current node1 
+					set.add(value);					 //add(value) to set
+					tmp.put(edge.node2.name, set);   //putting the calculated item into a map, key = node's name : value = set of faces
 				}
 			}
 		}
+		//printing map as topological table (key = node's name : value = set of faces)
 		System.out.println("\nNode-Face table");
 		for(Map.Entry<String, Set<Face>> couple : tmp.entrySet()) {
 			String key = couple.getKey();
@@ -165,26 +177,33 @@ public class Display {
 	 * @param map
 	 */
 	public static void printNodeCellTable(Map<String, Cell> map) {
-		Map<String, Set<Cell>> tmp = new HashMap<>();
+		//Calculating node : cell topological table
+		Map<String, Set<Cell>> tmp = new HashMap<>(); //creating the map(key = name : value = set of cells)
+		//loop in every cell
 		for (Map.Entry<String, Cell> pair : map.entrySet()) {
-			Cell value = pair.getValue();
+			Cell value = pair.getValue(); //reading the cell object itself
+			//loop in every face
 			for(Face face : value.faces) {
+				//loop in every edge
 				for(Edge edge : face.edges) {
+					//if tmp contained value.node1.name, program will add(value) to Set<Cell> for current node1
 					if(tmp.containsKey(edge.node1.name)) tmp.get(edge.node1.name).add(value);
 					else {
-						Set<Cell> set = new HashSet<>();
-						set.add(value);
-						tmp.put(edge.node1.name, set);
+						Set<Cell> set = new HashSet<>(); //creating set<Cell> for current node1 
+						set.add(value);					 //add(value) to set
+						tmp.put(edge.node1.name, set);   //putting the calculated item into a map, key = node's name : value = set of cells
 					}
+					//if tmp contained value.node2.name, program will add(value) to Set<Cell> for current node2
 					if(tmp.containsKey(edge.node2.name)) tmp.get(edge.node2.name).add(value);
 					else {
-						Set<Cell> set = new HashSet<>();
-						set.add(value);
-						tmp.put(edge.node2.name, set);
+						Set<Cell> set = new HashSet<>(); //creating set<Cell> for current node2 
+						set.add(value);					 //add(value) to set
+						tmp.put(edge.node2.name, set);   //putting the calculated item into a map, key = node's name : value = set of cells
 					}
 				}
 			}
 		}
+		//printing map as topological table (key = node's name : value = set of cells)
 		System.out.println("\nNode-Cell table");
 		for(Map.Entry<String, Set<Cell>> couple : tmp.entrySet()) {
 			String key = couple.getKey();
@@ -202,14 +221,17 @@ public class Display {
 	 * @param map
 	 */
 	public static void printEdgeNodeTable(Map<String, Edge> map) {
-		Map<String, Set<Node>> tmp = new HashMap<>();
+		//Calculating edge : node topological table
+		Map<String, Set<Node>> tmp = new HashMap<>(); //creating the map(key = name : value = set of nodes)
+		//loop in every edge
 		for(Map.Entry<String, Edge> pair : map.entrySet()) {
-			Edge value = pair.getValue();
-			Set<Node> set = new HashSet<>();
-			set.add(value.node1);
-			set.add(value.node2);
-			tmp.put(value.name, set);
+			Edge value = pair.getValue(); 	//reading the edge object itself
+			Set<Node> set = new HashSet<>();//creating set<Node> for current edge
+			set.add(value.node1);			//add(value.node1) to set
+			set.add(value.node2);			//add(value.node2) to set
+			tmp.put(value.name, set);		//putting the calculated item into a map, key = edge's name : value = set of nodes
 		}
+		//printing map as topological table (key = edge's name : value = set of nodes)
 		System.out.println("\nEdge-Node table");
 		for(Map.Entry<String, Set<Node>> couple : tmp.entrySet()) {
 			String key = couple.getKey();
@@ -222,7 +244,9 @@ public class Display {
 	 * @param map
 	 */
 	public static void printEdgeEdgeTable(Map<String, Edge> map) {
+		//Calculating edge : edge topological table
 		System.out.println("\nEdge-Edge table");
+		//printing map as topological table (key = edge's name : value = edge itself)
 		for(Map.Entry<String, Edge> pair : map.entrySet()) {
 			String key = pair.getKey();
 			Edge value = pair.getValue();
@@ -234,18 +258,23 @@ public class Display {
 	 * @param map
 	 */
 	public static void printEdgeFaceTable(Map<String, Face> map) {
-		Map<String, Set<Face>> tmp = new HashMap<>();
+		//Calculating edge : face topological table
+		Map<String, Set<Face>> tmp = new HashMap<>(); //creating the map(key = name : value = set of faces)
+		//loop in every face
 		for(Map.Entry<String, Face> pair : map.entrySet()) {
-			Face value = pair.getValue();
+			Face value = pair.getValue(); //reading the face object itself
+			//loop in every edge
 			for(Edge edge : value.edges) {
+				//if tmp contained edge.name as key, program will add(value) to Set<Face> for current edge
 				if(tmp.containsKey(edge.name)) tmp.get(edge.name).add(value);
 				else {
-					Set<Face> set = new HashSet<>();
-					set.add(value);
-					tmp.put(edge.name, set);
+					Set<Face> set = new HashSet<>();//creating set<Face> for current edge
+					set.add(value);					//add(value) to set
+					tmp.put(edge.name, set);		//putting the calculated item into a map, key = edge's name : value = set of faces
 				}
 			}
 		}
+		//printing map as topological table (key = edge's name : value = set of faces)
 		System.out.println("\nEdge-Face table");
 		for(Map.Entry<String, Set<Face>> pair : tmp.entrySet()) {
 			String key = pair.getKey();
@@ -258,20 +287,26 @@ public class Display {
 	 * @param map
 	 */
 	public static void printEdgeCellTable(Map<String, Cell> map) {
-		Map<String, Set<Cell>> tmp = new HashMap<>();
+		//Calculating edge : cell topological table
+		Map<String, Set<Cell>> tmp = new HashMap<>(); //creating the map(key = name : value = set of cells)
+		//loop in every cell
 		for(Map.Entry<String, Cell> pair : map.entrySet()) {
-			Cell value = pair.getValue();
+			Cell value = pair.getValue(); //reading the cell object itself
+			//loop in every face
 			for(Face face : value.faces) {
+				//loop in every edge
 				for(Edge edge : face.edges) {
+					//if tmp contained edge.name as key, program will add(value) to Set<Cell> for current edge
 					if(tmp.containsKey(edge.name)) tmp.get(edge.name).add(value);
 					else {
-						Set<Cell> set = new HashSet<>();
-						set.add(value);
-						tmp.put(edge.name, set);
+						Set<Cell> set = new HashSet<>();//creating set<Cell> for current edge
+						set.add(value);					//add(value) to set
+						tmp.put(edge.name, set);		//putting the calculated item into a map, key = edge's name : value = set of cells
 					}
 				}
 			}
 		}
+		//printing map as topological table (key = edge's name : value = set of cells)
 		System.out.println("\nEdge-Cell table");
 		for(Map.Entry<String, Set<Cell>> pair : tmp.entrySet()) {
 			String key = pair.getKey();
@@ -320,9 +355,12 @@ public class Display {
 	 * @param map
 	 */
 	public static void printFaceEdgeTable(Map<String, Face> map) {
+		//Calculating face : edge topological table
 		System.out.println("\nFace-Edge table:");
+		//printing map as topological table (key = face's name : value = set of edges)
+		//Every face has set of edges as parameter
 		for(Map.Entry<String, Face> pair : map.entrySet()) {
-			Face value = pair.getValue();
+			Face value = pair.getValue(); //reading the face object itself
 			System.out.println(value.name + ": " + value.edges);
 		}
 	}
@@ -331,7 +369,9 @@ public class Display {
 	 * @param map
 	 */
 	public static void printFaceFaceTable(Map<String, Face> map) {
+		//Calculating face : face topological table
 		System.out.println("\nFace-Face table:");
+		//printing map as topological table (key = face's name : value = face itself)
 		for(Map.Entry<String, Face> pair : map.entrySet()) {
 			String key = pair.getKey();
 			Face value = pair.getValue();
@@ -343,18 +383,23 @@ public class Display {
 	 * @param map
 	 */
 	public static void printFaceCellTable(Map<String, Cell> map) {
-		Map<String, Set<Cell>> tmp = new HashMap<>();
+		//Calculating face : cell topological table
+		Map<String, Set<Cell>> tmp = new HashMap<>(); //creating the map(key = name : value = set of cells)
+		//loop in every cell
 		for(Map.Entry<String, Cell> pair : map.entrySet()) {
-			Cell value = pair.getValue();
+			Cell value = pair.getValue();//reading the cell object itself
+			//loop in every face
 			for(Face face : value.faces) {
+				//if tmp contained face.name as key, program will add(value) to Set<Cell> for current face
 				if(tmp.containsKey(face.name)) tmp.get(face.name).add(value);
 				else {
-					Set<Cell> set = new HashSet<>();
-					set.add(value);
-					tmp.put(face.name, set);
+					Set<Cell> set = new HashSet<>();//creating set<Cell> for current face
+					set.add(value);					//add(value) to set
+					tmp.put(face.name, set);		//putting the calculated item into a map, key = face's name : value = set of cells
 				}
 			}
 		}
+		//printing map as topological table (key = face's name : value = set of cells)
 		System.out.println("\nFace-Cell table");
 		for(Map.Entry<String, Set<Cell>> pair : tmp.entrySet()) {
 			String key = pair.getKey();
@@ -439,9 +484,12 @@ public class Display {
 	 * @param map
 	 */
 	public static void printCellFaceTable(Map<String, Cell> map) {
+		//Calculating cell : face topological table
 		System.out.println("\nCell-Face table");
+		//printing map as topological table (key = cell's name : value = set of faces)
+		//Every cell has set of faces as parameter
 		for(Map.Entry<String, Cell> pair : map.entrySet()) {
-			Cell value = pair.getValue();
+			Cell value = pair.getValue(); //reading the cell object itself
 			System.out.println(value.name + ": " + value.faces);
 		}
 	}
@@ -451,7 +499,9 @@ public class Display {
 	 * @param map
 	 */
 	public static void printCellCellTable(Map<String, Cell> map) {
+		//Calculating cell : cell topological table
 		System.out.println("\nCell-Cell table");
+		//printing map as topological table (key = cell's name : value = set of cell)
 		for(Map.Entry<String, Cell> pair : map.entrySet()) {
 			String key = pair.getKey();
 			Cell value = pair.getValue();
