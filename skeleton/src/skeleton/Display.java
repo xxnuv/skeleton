@@ -1,9 +1,13 @@
 package skeleton;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import elements.Cell;
 import elements.Edge;
@@ -16,6 +20,15 @@ import elements.Node;
  *
  */
 public class Display {
+	
+	static Comparator<String> compare = new Comparator<String>() {
+		@Override
+		public int compare(String o1, String o2) {
+			int t1 = Integer.parseInt(o1.substring(1));
+			int t2 = Integer.parseInt(o2.substring(1));
+			return t1 > t2 ? 1 :  t1 == t2 ? 0 : -1;
+		}
+	};
 	
 	/*
 	 * Method for for displaying read nodes
@@ -90,23 +103,33 @@ public class Display {
 	 * @param map
 	 */
 	public static void printNodeNodeTable(Map<String, Node> map) {
+		long startTime = System.nanoTime();
+		Map<String, Node> tmp = new TreeMap<>(compare); //new map for nodes with comparator
+		//copy elements from map to new map tmp with comparator
+		for(Map.Entry<String, Node> pair : map.entrySet()) {
+			Node value = pair.getValue();
+			tmp.put(value.name, value);
+		}
 		//Calculating node : node topological table
 		System.out.println("\nNode-Node table");
 		//read the nodemap that is created after reading the file
 		//printing this map as key : value
-		for(Map.Entry<String, Node> pair : map.entrySet()) {
+		for(Map.Entry<String, Node> pair : tmp.entrySet()) {
 			String key = pair.getKey();
 			Node value = pair.getValue();
 			System.out.println(key + ": " + value.toString());
 		}
+		long endTime = System.nanoTime();
+		System.out.println("Building the node-node topological table took " + (endTime - startTime) + " ns");
 	}
 	/**
 	 * method for printing node : edge topology table
 	 * @param map
 	 */
 	public static void printNodeEdgeTable(Map<String, Edge> map) {
+		long startTime = System.nanoTime();
 		//Calculating node : edge topological table
-		Map<String, Set<Edge>> tmp = new HashMap<>(); //creating the map(key = name : value = set of edges)
+		Map<String, Set<Edge>> tmp = new TreeMap<>(compare); //creating the map(key = name : value = set of edges)
 		// loop in every edge
 		for (Map.Entry<String, Edge> pair : map.entrySet()) {
 			Edge value = pair.getValue(); //reading the edge object itself
@@ -114,7 +137,7 @@ public class Display {
 				tmp.get(value.node1.name).add(value); //program will add(value) to Set<Edge> for current node1
 			}
 			else {
-				Set<Edge> set = new HashSet<>(); //creating set<Edge> for current node1
+				Set<Edge> set = new TreeSet<>(); //creating set<Edge> for current node1
 				set.add(value);					 //add(value) to set
 				tmp.put(value.node1.name, set);	 //putting the calculated item into a map, key = node's name : value = set of edges		
 			}
@@ -122,7 +145,7 @@ public class Display {
 				tmp.get(value.node2.name).add(value); //program wiil add(value) to Set<Edge> for current node2
 			}
 			else {
-				Set<Edge> set = new HashSet<>(); //creating set<Edge> for current node2
+				Set<Edge> set = new TreeSet<>(); //creating set<Edge> for current node2
 				set.add(value);					 //add(value) to set
 				tmp.put(value.node2.name, set);  //putting the calculated item into a map, key = node's name : value = set of edges					
 			}
@@ -134,14 +157,17 @@ public class Display {
 			Set<Edge> value = couple.getValue();
 			System.out.println(key + ": " + value.toString());
 		}
+		long endTime = System.nanoTime();
+		System.out.println("Building the node-edge topological table took " + (endTime - startTime) + " ns");
 	}
 	/**
 	 * method for printing node : face topology table
 	 * @param map
 	 */
 	public static void printNodeFaceTable(Map<String, Face> map) {
+		long startTime = System.nanoTime();
 		//Calculating node : face topological table
-		Map<String, Set<Face>> tmp = new HashMap<>(); //creating the map(key = name : value = set of faces)
+		Map<String, Set<Face>> tmp = new TreeMap<>(compare); //creating the map(key = name : value = set of faces)
 		//loop in every face
 		for (Map.Entry<String, Face> pair : map.entrySet()) {
 			Face value = pair.getValue(); //reading the face object itself
@@ -150,14 +176,14 @@ public class Display {
 				//if tmp contained value.node1.name, program will add(value) to Set<Face> for current node1
 				if(tmp.containsKey(edge.node1.name)) tmp.get(edge.node1.name).add(value);
 				else {
-					Set<Face> set = new HashSet<>(); //creating set<Face> for current node1 
+					Set<Face> set = new TreeSet<>(); //creating set<Face> for current node1 
 					set.add(value);					 //add(value) to set
 					tmp.put(edge.node1.name, set);   //putting the calculated item into a map, key = node's name : value = set of faces
 				}
 				//if tmp contained value.node2.name, program will add(value) to Set<Face> for current node2
 				if(tmp.containsKey(edge.node2.name)) tmp.get(edge.node2.name).add(value);
 				else {
-					Set<Face> set = new HashSet<>(); //creating set<Face> for current node1 
+					Set<Face> set = new TreeSet<>(); //creating set<Face> for current node1 
 					set.add(value);					 //add(value) to set
 					tmp.put(edge.node2.name, set);   //putting the calculated item into a map, key = node's name : value = set of faces
 				}
@@ -170,6 +196,8 @@ public class Display {
 			Set<Face> value = couple.getValue();
 			System.out.println(key + ": " + value.toString());
 		}
+		long endTime = System.nanoTime();
+		System.out.println("Building the node-face topological table took " + (endTime - startTime) + " ns");
 	}
 	
 	/**
@@ -177,8 +205,9 @@ public class Display {
 	 * @param map
 	 */
 	public static void printNodeCellTable(Map<String, Cell> map) {
+		long startTime = System.nanoTime();
 		//Calculating node : cell topological table
-		Map<String, Set<Cell>> tmp = new HashMap<>(); //creating the map(key = name : value = set of cells)
+		Map<String, Set<Cell>> tmp = new TreeMap<>(compare); //creating the map(key = name : value = set of cells)
 		//loop in every cell
 		for (Map.Entry<String, Cell> pair : map.entrySet()) {
 			Cell value = pair.getValue(); //reading the cell object itself
@@ -189,14 +218,14 @@ public class Display {
 					//if tmp contained value.node1.name, program will add(value) to Set<Cell> for current node1
 					if(tmp.containsKey(edge.node1.name)) tmp.get(edge.node1.name).add(value);
 					else {
-						Set<Cell> set = new HashSet<>(); //creating set<Cell> for current node1 
+						Set<Cell> set = new TreeSet<>(); //creating set<Cell> for current node1 
 						set.add(value);					 //add(value) to set
 						tmp.put(edge.node1.name, set);   //putting the calculated item into a map, key = node's name : value = set of cells
 					}
 					//if tmp contained value.node2.name, program will add(value) to Set<Cell> for current node2
 					if(tmp.containsKey(edge.node2.name)) tmp.get(edge.node2.name).add(value);
 					else {
-						Set<Cell> set = new HashSet<>(); //creating set<Cell> for current node2 
+						Set<Cell> set = new TreeSet<>(); //creating set<Cell> for current node2 
 						set.add(value);					 //add(value) to set
 						tmp.put(edge.node2.name, set);   //putting the calculated item into a map, key = node's name : value = set of cells
 					}
@@ -210,6 +239,8 @@ public class Display {
 			Set<Cell> value = couple.getValue();
 			System.out.println(key + ": " + value.toString());
 		}
+		long endTime = System.nanoTime();
+		System.out.println("Building the node-cell topological table took " + (endTime - startTime) + " ns");
 	}
 	
 	
@@ -221,12 +252,13 @@ public class Display {
 	 * @param map
 	 */
 	public static void printEdgeNodeTable(Map<String, Edge> map) {
+		long startTime = System.nanoTime();
 		//Calculating edge : node topological table
-		Map<String, Set<Node>> tmp = new HashMap<>(); //creating the map(key = name : value = set of nodes)
+		Map<String, Set<Node>> tmp = new TreeMap<>(compare); //creating the map(key = name : value = set of nodes)
 		//loop in every edge
 		for(Map.Entry<String, Edge> pair : map.entrySet()) {
 			Edge value = pair.getValue(); 	//reading the edge object itself
-			Set<Node> set = new HashSet<>();//creating set<Node> for current edge
+			Set<Node> set = new TreeSet<>();//creating set<Node> for current edge
 			set.add(value.node1);			//add(value.node1) to set
 			set.add(value.node2);			//add(value.node2) to set
 			tmp.put(value.name, set);		//putting the calculated item into a map, key = edge's name : value = set of nodes
@@ -238,28 +270,40 @@ public class Display {
 			Set<Node> value = couple.getValue();
 			System.out.println(key + ": " + value.toString());
 		}
+		long endTime = System.nanoTime();
+		System.out.println("Building the edge-node topological table took " + (endTime - startTime) + " ns");
 	}
 	/**
 	 * method for printing edge : edge topology table
 	 * @param map
 	 */
 	public static void printEdgeEdgeTable(Map<String, Edge> map) {
+		long startTime = System.nanoTime();
+		Map<String, Edge> tmp = new TreeMap<>(compare); //new map for edges with comparator
+		//copy elements from map to new map tmp with comparator
+		for(Map.Entry<String, Edge> pair : map.entrySet()) {
+			Edge value = pair.getValue();
+			tmp.put(value.name, value);
+		}
 		//Calculating edge : edge topological table
 		System.out.println("\nEdge-Edge table");
 		//printing map as topological table (key = edge's name : value = edge itself)
-		for(Map.Entry<String, Edge> pair : map.entrySet()) {
+		for(Map.Entry<String, Edge> pair : tmp.entrySet()) {
 			String key = pair.getKey();
 			Edge value = pair.getValue();
 			System.out.println(key + ": " + value.toString());
 		}
+		long endTime = System.nanoTime();
+		System.out.println("Building the edge-edge topological table took " + (endTime - startTime) + " ns");
 	}
 	/**
 	 * method for printing edge : face topology table
 	 * @param map
 	 */
 	public static void printEdgeFaceTable(Map<String, Face> map) {
+		long startTime = System.nanoTime();
 		//Calculating edge : face topological table
-		Map<String, Set<Face>> tmp = new HashMap<>(); //creating the map(key = name : value = set of faces)
+		Map<String, Set<Face>> tmp = new TreeMap<>(compare); //creating the map(key = name : value = set of faces)
 		//loop in every face
 		for(Map.Entry<String, Face> pair : map.entrySet()) {
 			Face value = pair.getValue(); //reading the face object itself
@@ -268,7 +312,7 @@ public class Display {
 				//if tmp contained edge.name as key, program will add(value) to Set<Face> for current edge
 				if(tmp.containsKey(edge.name)) tmp.get(edge.name).add(value);
 				else {
-					Set<Face> set = new HashSet<>();//creating set<Face> for current edge
+					Set<Face> set = new TreeSet<>();//creating set<Face> for current edge
 					set.add(value);					//add(value) to set
 					tmp.put(edge.name, set);		//putting the calculated item into a map, key = edge's name : value = set of faces
 				}
@@ -281,14 +325,17 @@ public class Display {
 			Set<Face> value = pair.getValue();
 			System.out.println(key + ": " + value.toString());
 		}
+		long endTime = System.nanoTime();
+		System.out.println("Building the edge-face topological table took " + (endTime - startTime) + " ns");
 	}
 	/**
 	 * method for printing edge : cell topology table
 	 * @param map
 	 */
 	public static void printEdgeCellTable(Map<String, Cell> map) {
+		long startTime = System.nanoTime();
 		//Calculating edge : cell topological table
-		Map<String, Set<Cell>> tmp = new HashMap<>(); //creating the map(key = name : value = set of cells)
+		Map<String, Set<Cell>> tmp = new TreeMap<>(compare); //creating the map(key = name : value = set of cells)
 		//loop in every cell
 		for(Map.Entry<String, Cell> pair : map.entrySet()) {
 			Cell value = pair.getValue(); //reading the cell object itself
@@ -299,7 +346,7 @@ public class Display {
 					//if tmp contained edge.name as key, program will add(value) to Set<Cell> for current edge
 					if(tmp.containsKey(edge.name)) tmp.get(edge.name).add(value);
 					else {
-						Set<Cell> set = new HashSet<>();//creating set<Cell> for current edge
+						Set<Cell> set = new TreeSet<>();//creating set<Cell> for current edge
 						set.add(value);					//add(value) to set
 						tmp.put(edge.name, set);		//putting the calculated item into a map, key = edge's name : value = set of cells
 					}
@@ -313,6 +360,8 @@ public class Display {
 			Set<Cell> value = pair.getValue();
 			System.out.println(key + ": " + value.toString());
 		}
+		long endTime = System.nanoTime();
+		System.out.println("Building the edge-cell topological table took " + (endTime - startTime) + " ns");
 	}
 	
 	
@@ -324,11 +373,12 @@ public class Display {
 	 * @param map
 	 */
 	public static void printFaceNodeTable(Map<String, Face> map) {
+		long startTime = System.nanoTime();
 		//Calculating face : node topological table
-		Map<String, Set<Node>> tmp = new HashMap<>();//creating the map(key = name : value = set of nodes)
+		Map<String, Set<Node>> tmp = new TreeMap<>(compare);//creating the map(key = name : value = set of nodes)
 		//loop in every face
 		for (Map.Entry<String, Face> pair : map.entrySet()) {
-			Set<Node> set = new HashSet<>(); //set with found nodes
+			Set<Node> set = new TreeSet<>(); //set with found nodes
 			String key = pair.getKey(); //reading the face's name
 			Face value = pair.getValue();//reading the face object itself
 			//Face has attributes - it is set of edges.
@@ -349,12 +399,15 @@ public class Display {
 			Set<Node> value = pair.getValue();
 			System.out.println(key + ": " + value.toString());
 		}
+		long endTime = System.nanoTime();
+		System.out.println("Building the face-node topological table took " + (endTime - startTime) + " ns");
 	}
 	/**
 	 * method for printing face : edge topology table
 	 * @param map
 	 */
 	public static void printFaceEdgeTable(Map<String, Face> map) {
+		long startTime = System.nanoTime();
 		//Calculating face : edge topological table
 		System.out.println("\nFace-Edge table:");
 		//printing map as topological table (key = face's name : value = set of edges)
@@ -363,28 +416,40 @@ public class Display {
 			Face value = pair.getValue(); //reading the face object itself
 			System.out.println(value.name + ": " + value.edges);
 		}
+		long endTime = System.nanoTime();
+		System.out.println("Building the face-edge topological table took " + (endTime - startTime) + " ns");
 	}
 	/**
 	 * method for printing face : face topology table
 	 * @param map
 	 */
 	public static void printFaceFaceTable(Map<String, Face> map) {
+		long startTime = System.nanoTime();
+		Map<String, Face> tmp = new TreeMap<>(compare); //new map for faces with comparator
+		//copy elements from map to new map tmp with comparator
+		for(Map.Entry<String, Face> pair : map.entrySet()) {
+			Face value = pair.getValue();
+			tmp.put(value.name, value);
+		}
 		//Calculating face : face topological table
 		System.out.println("\nFace-Face table:");
 		//printing map as topological table (key = face's name : value = face itself)
-		for(Map.Entry<String, Face> pair : map.entrySet()) {
+		for(Map.Entry<String, Face> pair : tmp.entrySet()) {
 			String key = pair.getKey();
 			Face value = pair.getValue();
 			System.out.println(key + ": " + value.toString());
 		}
+		long endTime = System.nanoTime();
+		System.out.println("Building the face-face topological table took " + (endTime - startTime) + " ns");
 	}
 	/**
 	 * method for printing face : cell topology table
 	 * @param map
 	 */
 	public static void printFaceCellTable(Map<String, Cell> map) {
+		long startTime = System.nanoTime();
 		//Calculating face : cell topological table
-		Map<String, Set<Cell>> tmp = new HashMap<>(); //creating the map(key = name : value = set of cells)
+		Map<String, Set<Cell>> tmp = new TreeMap<>(compare); //creating the map(key = name : value = set of cells)
 		//loop in every cell
 		for(Map.Entry<String, Cell> pair : map.entrySet()) {
 			Cell value = pair.getValue();//reading the cell object itself
@@ -393,7 +458,7 @@ public class Display {
 				//if tmp contained face.name as key, program will add(value) to Set<Cell> for current face
 				if(tmp.containsKey(face.name)) tmp.get(face.name).add(value);
 				else {
-					Set<Cell> set = new HashSet<>();//creating set<Cell> for current face
+					Set<Cell> set = new TreeSet<>();//creating set<Cell> for current face
 					set.add(value);					//add(value) to set
 					tmp.put(face.name, set);		//putting the calculated item into a map, key = face's name : value = set of cells
 				}
@@ -406,6 +471,8 @@ public class Display {
 			Set<Cell> value = pair.getValue();
 			System.out.println(key + ": " + value.toString());
 		}
+		long endTime = System.nanoTime();
+		System.out.println("Building the face-cell topological table took " + (endTime - startTime) + " ns");
 	}
 	
 	
@@ -417,11 +484,12 @@ public class Display {
 	 * @param map
 	 */
 	public static void printCellNodeTable(Map<String, Cell> map) {
+		long startTime = System.nanoTime();
 		//Calculating cell : node topological table
-		Map<String, Set<Node>> tmp = new HashMap<>();//creating the map(key = name : value = set of nodes)
+		Map<String, Set<Node>> tmp = new TreeMap<>(compare);//creating the map(key = name : value = set of nodes)
 		// loop in every cell
 		for (Map.Entry<String, Cell> pair : map.entrySet()) {
-			Set<Node> set = new HashSet<>();//set with found nodes
+			Set<Node> set = new TreeSet<>();//set with found nodes
 			String key = pair.getKey();//reading the cell's name
 			Cell value = pair.getValue();//reading the cell object itself
 			//Cell has attributes - it is set of faces
@@ -446,6 +514,8 @@ public class Display {
 			Set<Node> value = pair.getValue();
 			System.out.println(key + ": " + value.toString());
 		}
+		long endTime = System.nanoTime();
+		System.out.println("Building the cell-node topological table took " + (endTime - startTime) + " ns");
 	}
 	
 	/**
@@ -453,11 +523,12 @@ public class Display {
 	 * @param map
 	 */
 	public static void printCellEdgeTable(Map<String, Cell> map) {
+		long startTime = System.nanoTime();
 		//Calculating cell : edge topological table
-		Map<String, Set<Edge>> tmp = new HashMap<>();//creating the map(key = name : value = set of edges)
+		Map<String, Set<Edge>> tmp = new TreeMap<>(compare);//creating the map(key = name : value = set of edges)
 		// loop in every cell
 		for (Map.Entry<String, Cell> pair : map.entrySet()) {
-			Set<Edge> set = new HashSet<>();//set with found edges
+			Set<Edge> set = new TreeSet<>();//set with found edges
 			String key = pair.getKey();//reading the cell's name
 			Cell value = pair.getValue();//reading the cell object itself
 			//Cell has attributes - it is set of faces
@@ -477,6 +548,8 @@ public class Display {
 			Set<Edge> value = pair.getValue();
 			System.out.println(key + ": " + value.toString());
 		}
+		long endTime = System.nanoTime();
+		System.out.println("Building the cell-edge topological table took " + (endTime - startTime) + " ns");
 	}
 	
 	/**
@@ -484,6 +557,7 @@ public class Display {
 	 * @param map
 	 */
 	public static void printCellFaceTable(Map<String, Cell> map) {
+		long startTime = System.nanoTime();
 		//Calculating cell : face topological table
 		System.out.println("\nCell-Face table");
 		//printing map as topological table (key = cell's name : value = set of faces)
@@ -492,6 +566,8 @@ public class Display {
 			Cell value = pair.getValue(); //reading the cell object itself
 			System.out.println(value.name + ": " + value.faces);
 		}
+		long endTime = System.nanoTime();
+		System.out.println("Building the cell-face topological table took " + (endTime - startTime) + " ns");
 	}
 	
 	/**
@@ -499,13 +575,22 @@ public class Display {
 	 * @param map
 	 */
 	public static void printCellCellTable(Map<String, Cell> map) {
+		long startTime = System.nanoTime();
+		Map<String, Cell> tmp = new TreeMap<>(compare); //new map for cell with comparator
+		//copy elements from map to new map tmp with comparator
+		for(Map.Entry<String, Cell> pair : map.entrySet()) {
+			Cell value = pair.getValue();
+			tmp.put(value.name, value);
+		}
 		//Calculating cell : cell topological table
 		System.out.println("\nCell-Cell table");
 		//printing map as topological table (key = cell's name : value = set of cell)
-		for(Map.Entry<String, Cell> pair : map.entrySet()) {
+		for(Map.Entry<String, Cell> pair : tmp.entrySet()) {
 			String key = pair.getKey();
 			Cell value = pair.getValue();
 			System.out.println(key + ": " + value.toString());
 		}
+		long endTime = System.nanoTime();
+		System.out.println("Building the cell-cell topological table took " + (endTime - startTime) + " ns");
 	}
 }

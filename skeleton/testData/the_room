@@ -181,3 +181,19 @@ cell, c3, f6, f12, f14, f15, f16, f17, f34, f35
 cell, c4, f11, f22, f23, f24, f25, f26, f27, f30, f31, f32, f33, f38
 cell, c5, f7, f14, f26, f28, f29, f41
 cell, c6, f9, f10, f20, f37, f16, f19, f21, f23, f18, f44
+table, node, node
+table, node, edge
+table, node, face
+table, node, cell
+table, edge, node
+table, edge, edge
+table, edge, face
+table, edge, cell
+table, face, node
+table, face, edge
+table, face, face
+table, face, cell
+table, cell, node
+table, cell, edge
+table, cell, face
+table, cell, cell

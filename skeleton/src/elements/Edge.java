@@ -7,7 +7,7 @@ package elements;
  * @author rozhk
  *
  */
-public class Edge {
+public class Edge implements Comparable<Edge> {
 	
 	public String name;
 	public Node node1, node2;
@@ -38,5 +38,13 @@ public class Edge {
 	 */
 	public String toString() {
 		return this.name;
+	}
+
+	@Override
+	public int compareTo(Edge o) {
+		// TODO Auto-generated method stub
+		int t1 = Integer.parseInt(this.name.substring(1));
+		int t2 = Integer.parseInt(o.name.substring(1));
+		return t1 > t2 ? 1 :  t1 == t2 ? 0 : -1;
 	}
 }

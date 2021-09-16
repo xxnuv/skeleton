@@ -8,7 +8,7 @@ import java.util.Set;
  * @author rozhk
  *
  */
-public class Cell {
+public class Cell implements Comparable<Cell> {
 	
 	public String name;
 	public Set<Face> faces;
@@ -48,5 +48,13 @@ public class Cell {
 	 */
 	public Set<Face> getFaces() {
 		return this.faces;
+	}
+
+	@Override
+	public int compareTo(Cell o) {
+		// TODO Auto-generated method stub
+		int t1 = Integer.parseInt(this.name.substring(1));
+		int t2 = Integer.parseInt(o.name.substring(1));
+		return t1 > t2 ? 1 :  t1 == t2 ? 0 : -1;
 	}
 }

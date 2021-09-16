@@ -7,7 +7,7 @@ import java.util.Set;
  * @author rozhk
  *
  */
-public class Face {
+public class Face implements Comparable<Face> {
 	
 	public String name;
 	public Set<Edge> edges;
@@ -47,5 +47,13 @@ public class Face {
 	 */
 	public Set<Edge> getEdges(){
 		return edges;
+	}
+
+	@Override
+	public int compareTo(Face o) {
+		// TODO Auto-generated method stub
+		int t1 = Integer.parseInt(this.name.substring(1));
+		int t2 = Integer.parseInt(o.name.substring(1));
+		return t1 > t2 ? 1 :  t1 == t2 ? 0 : -1;
 	}
 }

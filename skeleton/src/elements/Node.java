@@ -8,7 +8,7 @@ package elements;
  * @author rozhk
  *
  */
-public class Node {
+public class Node implements Comparable<Node> {
 	
 	public String name;
 	public double x;
@@ -43,5 +43,13 @@ public class Node {
 	 */
 	public String toString() {
 		return this.name;
-		}	
+		}
+
+	@Override
+	public int compareTo(Node o) {
+		// TODO Auto-generated method stub
+		int t1 = Integer.parseInt(this.name.substring(1));
+		int t2 = Integer.parseInt(o.name.substring(1));
+		return t1 > t2 ? 1 :  t1 == t2 ? 0 : -1;
+	}	
 }

@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import elements.Cell;
 import elements.Edge;
@@ -31,13 +33,14 @@ public class LineReader {
 	
 	BufferedReader reader;
 	private String line;
+	private long startLRTime;;
 	/*
 	 * Every map contains the name of object as key, and the object itself as value.
 	 */
-	public static Map<String, Node> nodemap = new HashMap<>();
-	public static Map<String, Edge> edgemap = new HashMap<>();
-	public static Map<String, Face> facemap = new HashMap<>();
-	public static Map<String, Cell> cellmap = new HashMap<>();
+	public static Map<String, Node> nodemap = new TreeMap<>();
+	public static Map<String, Edge> edgemap = new TreeMap<>();
+	public static Map<String, Face> facemap = new TreeMap<>();
+	public static Map<String, Cell> cellmap = new TreeMap<>();
 	
 	//Shadows objects sets
 	public static Set <SEdge> edgeSet = new HashSet<>();
@@ -53,6 +56,7 @@ public class LineReader {
 	 * @param filename
 	 */
 	public LineReader(String filename) {
+		startLRTime = System.nanoTime();
 		try {
 			// Using Buffered reader class, which is inherited from abstract
 			// class Reader and have readLine() method. To open a file via FileReader
@@ -179,32 +183,41 @@ public class LineReader {
 	 */
 	public void shadowSearch(Set<SEdge> edge, Set<SFace> face, Set<SCell> cell) {
 		//loop in the edgeSet
+		long startTime = System.nanoTime();
 		for (SEdge shadow : edge) {
 			String edgeName = shadow.edgeName; //reading the object's name
 			Node node1 = nodemap.get(shadow.nodeName1); //searching node in the nodemap using the node's name
 			Node node2 = nodemap.get(shadow.nodeName2); //searching node in the nodemap using the node's name
 			edgemap.put(edgeName, new Edge(edgeName, node1, node2)); //putting the item into a edgemap, key = name : value = object
 		}
+		long endTime = System.nanoTime();
+		System.out.println("To build a edgemap from shadows edge's set, it was spent " + (endTime - startTime) + " ns");
 		//loop in the faceSet
+		startTime = System.nanoTime();
 		for (SFace shadow : face) {
 			String faceName = shadow.faceName; //reading the object's name
-			Set<Edge> edgetmp = new HashSet<>(); //Set with real edges
+			Set<Edge> edgetmp = new TreeSet<>(); //Set with real edges
 			for (String line : shadow.setNames) {
 				//searching edge in edgemap using the edge's name, after object would have found - program would add edge to set.
 				edgetmp.add(edgemap.get(line));
 			}
 			facemap.put(faceName, new Face(faceName, edgetmp)); //putting the item into a facemap, key = name : value = object
 		}
+		endTime = System.nanoTime();
+		System.out.println("To build a facemap from shadows face's set, it was spent " + (endTime - startTime) + " ns");
 		//loop in the cellSet
+		startTime = System.nanoTime();
 		for (SCell shadow : cell) {
 			String cellName = shadow.cellName; //reading the object's name
-			Set<Face> facetmp = new HashSet<>(); //Set with real faces
+			Set<Face> facetmp = new TreeSet<>(); //Set with real faces
 			for (String line : shadow.setNames) {
 				//searching face in facemap using the face's name, after object would have found - program would add face to set.
 				facetmp.add(facemap.get(line));
 			}
 			cellmap.put(cellName, new Cell(cellName, facetmp)); //putting the item into a cellmap, key = name : value = object
 		}
+		endTime = System.nanoTime();
+		System.out.println("To build a facemap from shadows cell's set, it was spent " + (endTime - startTime) + " ns");
 		edge.clear(); //clearing sets
 		face.clear();
 		cell.clear();
@@ -214,6 +227,8 @@ public class LineReader {
 	 * The method closes lineReader stream
 	 */
 	public void close() {
+		long endLRTime = System.nanoTime();
+		System.out.println("\nTotal time for building maps, reading the input file and printing topological tables: " + (endLRTime - startLRTime) + " ns");
 		try {
 			reader.close();
 		} catch (IOException e) {
