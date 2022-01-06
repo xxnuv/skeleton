@@ -1,0 +1,199 @@
+node, n1, 0, 0, 0
+node, n2, 460, 0, 0
+node, n3, 460, 350, 0
+node, n4, 0, 350, 0
+node, n5, 0, 25, 20
+node, n6, 0, 0, 20
+node, n7, 460, 0, 20
+node, n8, 460, 25, 20
+node, n9, 445, 25, 20
+node, n10, 460, 100, 20
+node, n11, 445, 100, 20
+node, n12, 460, 190, 20
+node, n13, 445, 190, 20
+node, n14, 460, 325, 20
+node, n15, 445, 325, 20
+node, n16, 460, 350, 20
+node, n17, 25, 325, 20
+node, n18, 0, 350, 20
+node, n19, 0, 325, 20
+node, n20, 25, 25, 20
+node, n21, 0, 0, 300
+node, n22, 460, 0, 300
+node, n23, 460, 350, 300
+node, n24, 0, 350, 300
+node, n25, 0, 0, 280
+node, n26, 0, 25, 280
+node, n27, 25, 25, 280
+node, n28, 460, 0, 280
+node, n29, 460, 25, 280
+node, n30, 445, 25, 280
+node, n31, 460, 350, 280
+node, n32, 460, 325, 280
+node, n33, 445, 325, 280
+node, n34, 0, 350, 280
+node, n35, 0, 325, 280
+node, n36, 25, 325, 280
+node, n37, 460, 100, 230
+node, n38, 445, 100, 230
+node, n39, 460, 190, 230
+node, n40, 445, 190, 230
+node, n41, 360, 325, 110
+node, n42, 360, 350, 110
+node, n43, 360, 325, 270
+node, n44, 360, 350, 270
+node, n45, 160, 325, 270
+node, n46, 160, 350, 270
+node, n47, 160, 325, 110
+node, n48, 160, 350, 110
+edge, e1, n1, n2 
+edge, e2, n2, n3 
+edge, e3, n3, n4 
+edge, e4, n4, n1 
+edge, e5, n5, n6 
+edge, e6, n5, n20 
+edge, e7, n6, n7 
+edge, e8, n9, n20 
+edge, e9, n7, n8 
+edge, e10, n8, n9 
+edge, e11, n8, n10 
+edge, e12, n9, n11 
+edge, e13, n10, n11 
+edge, e14, n10, n12 
+edge, e15, n12, n13 
+edge, e16, n12, n14 
+edge, e17, n13, n15 
+edge, e18, n14, n15 
+edge, e19, n14, n16 
+edge, e20, n16, n18 
+edge, e21, n15, n17 
+edge, e22, n17, 	n19
+edge, e23, n18, n19 
+edge, e24, n5, n19 
+edge, e25, n17, n20 
+edge, e26, n1, n6 
+edge, e27, n6, n25 
+edge, e28, n5, n26 
+edge, e29, n20, n27 
+edge, e30, n21, n25 
+edge, e31, n2, n7 
+edge, e32, n7, n28 
+edge, e33, n8, n29 
+edge, e34, n9, n30 
+edge, e35, n22, n28 
+edge, e36, n10, n37 
+edge, e37, n11, n38 
+edge, e38, n12, n39 
+edge, e39, n13, n40 
+edge, e40, n3, n16 
+edge, e41, n16, n31 
+edge, e42, n14, n32 
+edge, e43, n15, n33 
+edge, e44, n23, n31 
+edge, e45, n41, n43 
+edge, e46, n42, n44 
+edge, e47, n45, n47 
+edge, e48, n46, n48 
+edge, e49, n4, n18 
+edge, e50, n18, n34 
+edge, e51, n19, n35 
+edge, e52, n17, n36 
+edge, e53, n24, n34 
+edge, e54, n25, n26 
+edge, e55, n21, n22 
+edge, e56, n26, n27 
+edge, e57, n27, n30 
+edge, e58, n25, n28 
+edge, e59, n29, n30 
+edge, e60, n28, n29 
+edge, e61, n22, n23 
+edge, e62, n29, n32 
+edge, e63, n30, n33 
+edge, e64, n32, n33 
+edge, e65, n31, n32 
+edge, e66, n23, n24 
+edge, e67, n31, n34 
+edge, e68, n33, n36 
+edge, e69, n35, n36 
+edge, e70, n34, n35 
+edge, e71, n37, n38
+edge, e72, n37, n39
+edge, e73, n38, n40
+edge, e74, n39, n40
+edge, e75, n41, n42
+edge, e76, n42, n48
+edge, e77, n41, n47
+edge, e78, n47, n48
+edge, e79, n43, n44
+edge, e80, n44, n46
+edge, e81, n43, n45
+edge, e82, n45, n46
+edge, e83, n21, n24
+edge, e84, n26, n35
+edge, e85, n27, n36
+face, f1, e1, e2, e3, e4,				
+face, f2, e1, e31, e7,	e25,				
+face, f3, e2, e40, e19,	e16, e14, e11, e9, e31
+face, f4, e3, e40, e20,	e49
+face, f5, e4, e49, e23,	e24, e5, e26		
+face, f6, e7, e9, e10,	e8, e6, e5		
+face, f7, e6, e25, e22,	e24				
+face, f8, e8, e12, e13,	e14, e15, e17, e21, e25
+face, f9, e10, e11, e12, e13			
+face, f10, e15,	e16, e17, e18				
+face, f11, e21,	e18, e19, e20, e23, e22		
+face, f12, e7,	e32, e58, e27
+face, f13, e58,	e35, e55, e30
+face, f14, e6,	e29, e56, e28
+face, f15, e8,	e34, e57, e29
+face, f16, e10,	e33, e59, e34
+face, f17, e32,	e9, e33, e60
+face, f18, e11,	e36, e72, e38, e16, e42, e62, e33
+face, f19, e13,	e36, e71, e37				
+face, f20, e71,	e72, e74, e73				
+face, f21, e15,	e38, e74, e39				
+face, f22, e19,	e41, e65, e42				
+face, f23, e18,	e42, e64, e43				
+face, f24, e20,	e41, e67, e50, e76, e46, e80, e48
+face, f25, e21,	e43, e68, e52, e77, e45, e81, e47
+face, f26, e22,	e52, e69, e51
+face, f27, e23,	e50, e70, e51
+face, f28, e24,	e51, e84, e28
+face, f29, e25,	e52, e85, e29
+face, f30, e77,	e75, e76, e78
+face, f31, e75,	e46, e79, e45
+face, f32, e78,	e48, e82, e47
+face, f33, e81,	e79, e80, e82
+face, f34, e27,	e5, e28, e54
+face, f35, e54,	e58, e60, e59, e57, e56
+face, f36, e44,	e61, e35, e60, e65, e62
+face, f37, e59,	e62, e64, e63
+face, f38, e69,	e68, e64, e65, e67, e70
+face, f39, e67,	e44, e66, e53
+face, f40, e53,	e83, e30, e54, e84, e70
+face, f41, e56,	e85, e69, e84
+face, f42, e85,	e57, e63, e68
+face, f43, e55,	e61, e66, e83
+face, f44, e17,	e43, e63, e34, e12, e37, e73, e39
+cell, c1, f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11
+cell, c2, f13, f35, f36, f37, f38, f39, f40, f41, f42, f43
+cell, c3, f6, f12, f14, f15, f16, f17, f34, f35
+cell, c4, f11, f22, f23, f24, f25, f26, f27, f30, f31, f32, f33, f38
+cell, c5, f7, f14, f26, f28, f29, f41
+cell, c6, f9, f10, f20, f37, f16, f19, f21, f23, f18, f44
+table, node, node
+table, node, edge
+table, node, face
+table, node, cell
+table, edge, node
+table, edge, edge
+table, edge, face
+table, edge, cell
+table, face, node
+table, face, edge
+table, face, face
+table, face, cell
+table, cell, node
+table, cell, edge
+table, cell, face
+table, cell, cell

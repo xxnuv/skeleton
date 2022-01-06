@@ -1,3 +1,4 @@
+session, The unit cube
 face, f6, e5, e6, e7, e8
 cell, c1, f1, f2, f3, f4, f5, f6
 edge, e7, n7, n8
@@ -25,19 +26,32 @@ edge, e1, n1, n2
 edge, e6, n6, n7
 node, n1, 0, 0, 0
 node, n2, 0, 1, 0
-table, node, node
-table, node, edge
-table, node, face
-table, node, cell
-table, edge, node
-table, edge, edge
-table, edge, face
-table, edge, cell
-table, face, node
-table, face, edge
-table, face, face
-table, face, cell
+do
 table, cell, node
-table, cell, edge
-table, cell, face
-table, cell, cell
+
+node, n9, 0.5, 0.5, 1.5
+edge, e13, n7, n9
+edge, e14, n6, n9
+edge, e15, n5, n9
+edge, e16, n8, n9
+face, f7, e6, e13, e14
+face, f8, e5, e14, e15
+face, f9, e8, e15, e16
+face, f10, e7, e13, e16
+cell, c2, f7, f8, f9, f10, f6
+do
+table, cell, node
+
+node, n10, 0.5, 0.5, -0.5
+edge, e17, n1, n10
+edge, e18, n2, n10
+edge, e19, n3, n10
+edge, e20, n4, n10
+face, f11, e1, e17, e18
+face, f12, e2, e18, e19
+face, f13, e3, e19, e20
+face, f14, e4, e20, e17
+cell, c3, f5, f11, f12, f13, f14
+do
+table, cell, node
+end
