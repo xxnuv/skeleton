@@ -1,0 +1,75 @@
+session, the unit cube without octant
+node, n1, 0, 0, 0
+node, n2, 0, 1, 0
+node, n3, 0, 1, 1
+node, n4, 0, 0, 1
+node, n5, 1, 0, 0
+node, n6, 1, 1, 0
+node, n7, 1, 1, 1
+node, n8, 1, 0, 1
+edge, e1, n1, n2
+edge, e2, n2, n3
+edge, e3, n3, n4
+edge, e4, n1, n4
+edge, e5, n5, n6
+edge, e6, n6, n7
+edge, e7, n7, n8
+edge, e8, n5, n8
+edge, e9, n1, n5
+edge, e10, n2, n6
+edge, e11, n3, n7
+edge, e12, n4, n8
+face, f1, e1, e10, e5, e9
+face, f2, e2, e11, e6, e10
+face, f3, e3, e11, e7, e12
+face, f4, e4, e12, e8, e9
+face, f5, e1, e2, e3, e4
+face, f6, e5, e6, e7, e8
+cell, c1, f1, f2, f3, f4, f5, f6
+
+do
+remove, n6
+edge, e5, n5, n13
+edge, e6, n7, n15
+edge, e10, n2, n10
+face, f1, e1, e10, e13, e17, e5, e9
+face, f2, e2, e11, e6, e19, e14, e10
+face, f6, e5, e20, e21, e6, e7, e8
+node, n9, 0.5, 0.5, 0.0
+node, n10,0.5, 1.0, 0.0
+node, n11,0.5, 1, 0.5
+node, n12,0.5, 0.5, 0.5
+node, n13,	1.0, 0.5, 0.0
+node, n14,	1.0, 0.5, 0.5
+node, n15,	1.0, 1.0, 0.5
+edge, e13,	n9, n10
+edge, e14,	n10, n11
+edge, e15,	n11, n12
+edge, e16,	n12, n9
+edge, e17,	n9, n13
+edge, e18,	n12, n14
+edge, e19,	n11, n15
+edge, e20,	n13, n14
+edge, e21,	n14, n15
+face, f7,	e13, e14, e15, e16
+face, f8,	e16, e17, e18, e20
+face, f9,	e15, e18, e19, e21
+cell, c1, f1, f2, f3, f4, f5, f6, f7, f8, f9
+do
+table, node, node
+table, node, edge
+table, node, face
+table, node, cell
+table, edge, node
+table, edge, edge
+table, edge, face
+table, edge, cell
+table, face, node
+table, face, edge
+table, face, face
+table, face, cell
+table, cell, node
+table, cell, edge
+table, cell, face
+table, cell, cell
+end

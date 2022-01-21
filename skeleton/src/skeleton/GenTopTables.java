@@ -51,6 +51,28 @@ public class GenTopTables {
 	public static int operation = 0;
 	public static int inner_operation = 0;
 	
+	public static void clearTables() {
+		topNodeNode = LineReader.nodemap;
+		topNodeEdge.clear();
+		topNodeFace.clear();
+		topNodeCell.clear();
+		
+		topEdgeNode.clear();
+		topEdgeEdge = LineReader.edgemap;
+		topEdgeFace.clear();
+		topEdgeCell.clear();
+		
+		topFaceNode.clear();
+		topFaceEdge.clear();
+		topFaceFace = LineReader.facemap;
+		topFaceCell.clear();
+		
+		topCellNode.clear();
+		topCellEdge.clear();
+		topCellFace.clear();
+		topCellCell = LineReader.cellmap;
+	}
+	
 	public static void generateTables(Map<String, Cell> map) {
 		long startTime = System.nanoTime();
 		//loop in every cell

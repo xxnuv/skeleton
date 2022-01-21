@@ -183,16 +183,24 @@ cell, c4, f11, f22, f23, f24, f25, f26, f27, f30, f31, f32, f33, f38
 cell, c5, f7, f14, f26, f28, f29, f41
 cell, c6, f9, f10, f20, f37, f16, f19, f21, f23, f18, f44
 do
-table, face, node
 table, cell, node
-table, cell, edge
 
 face, f45, e46, e76, e48, e80
 face, f46, e39, e14, e37, e73
 cell, c7, f8, f15, f44, f25, f29, f42, f19, f20, f21, f46, f30, f31, f32, f33, f45
 do
-table, face, node
 table, cell, node
-table, cell, edge
 
+remove, c1
+do
+table, cell, node
+
+remove, n1
+node, n77, -9, 9, 0
+edge, e1, n77, n2
+edge, e26, n77, n6
+
+do
+table, node, cell
+table, edge, node
 end

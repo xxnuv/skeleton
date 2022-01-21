@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -135,7 +136,13 @@ public class LineReader {
 					Double x1 = Double.parseDouble(lines[2]); //lines[2] contains the node's coord
 					Double x2 = Double.parseDouble(lines[3]); //lines[3] contains the node's coord
 					Double x3 = Double.parseDouble(lines[4]); //lines[4] contains the node's coord
-					nodemap.put(name, new Node(name, x1, x2, x3));//putting the read item into a nodemap, key = name : value = object
+					if (nodemap.containsKey(name)) {
+						Node tmp = nodemap.get(name);
+						tmp.x = x1;
+						tmp.y = x2;
+						tmp.z = x3;
+					}
+					else nodemap.put(name, new Node(name, x1, x2, x3));//putting the read item into a nodemap, key = name : value = object
 				}catch (NumberFormatException e) {
 					errors.add(lineNumber + " :" + currentLine + " : Some arguments isn't number");
 				}
@@ -163,31 +170,27 @@ public class LineReader {
 			cellSet.add(new SCell(lines[1], namesFace)); //put the new Shadow Cell to cellSet
 		}
 		else if (lines[0].equals("do")) {
-			if (doCounter > 0) {
-				outputTables();
-				construct.clear();
-			}
+			//Display.printNode(nodemap);
 			/*
 			 * When LR see do command, it calls shadowSearch. ShadowSearch is
 			 * constructing edgemap, facemap, cellmap using shadows structures.
 			 */
+			GenTopTables.clearTables();
 			shadowSearch(edgeSet, faceSet, cellSet);
 			GenTopTables.generateTables(cellmap); //building all topological tables
 			edgeSet.clear();
 			faceSet.clear();
 			cellSet.clear();
-
-			doCounter++;
 		}
 		else if (lines[0].equals("end")) {
-			outputTables(); //printing topological tables
+			//outputTables(); //printing topological tables
 		}
 		else if (lines[0].equals("remove")) {
 			//remove logic
-			Set<String> tmpSet = new HashSet<>();
-			for (int i = 1; i < lines.length; i++) tmpSet.add(lines[i]);
-			removeLogic(tmpSet);
-			tmpSet.clear();
+			Set<String> removeSet = new HashSet<>();//Set for removing elements
+			for (int i = 1; i < lines.length; i++) removeSet.add(lines[i]);
+			removeLogic(removeSet);
+			removeSet.clear();
 		}
 		else if (line.equals("")) {}
 		else if (lines[0].equals("table")) { //reading command for construction topological tables
@@ -199,6 +202,8 @@ public class LineReader {
 			}else errors.add(lineNumber + " :" + currentLine + " : Invalid number of arguments");
 		}
 		else errors.add(lineNumber + " :" + currentLine + " : Unsupported command");
+		outputTables();
+		construct.clear();
 	}
 	/**
 	 * This method is searching real elements using shadows objects set and constructing edgemap, facemap, cellmap.
@@ -212,9 +217,16 @@ public class LineReader {
 		long startTime = System.nanoTime();
 		for (SEdge shadow : edge) {
 			String edgeName = shadow.edgeName; //reading the object's name
+			if (edgemap.containsKey(edgeName)) {
+				Edge tmp = edgemap.get(edgeName);
+				tmp.node1 = nodemap.get(shadow.nodeName1);
+				tmp.node2 = nodemap.get(shadow.nodeName2);
+			}
+			else {
 			Node node1 = nodemap.get(shadow.nodeName1); //searching node in the nodemap using the node's name
 			Node node2 = nodemap.get(shadow.nodeName2); //searching node in the nodemap using the node's name
 			edgemap.put(edgeName, new Edge(edgeName, node1, node2)); //putting the item into a edgemap, key = name : value = object
+			}
 		}
 		long endTime = System.nanoTime();
 		if (!checker) System.out.println("\n" + "To build a edgemap from shadows edge's set, it was spent " + (endTime - startTime) + " ns");
@@ -227,7 +239,8 @@ public class LineReader {
 				//searching edge in edgemap using the edge's name, after object would have found - program would add edge to set.
 				edgetmp.add(edgemap.get(line));
 			}
-			facemap.put(faceName, new Face(faceName, edgetmp)); //putting the item into a facemap, key = name : value = object
+			if (facemap.containsKey(faceName)) facemap.get(faceName).edges = edgetmp;
+			else facemap.put(faceName, new Face(faceName, edgetmp)); //putting the item into a facemap, key = name : value = object
 		}
 		endTime = System.nanoTime();
 		if (!checker) System.out.println("To build a facemap from shadows face's set, it was spent " + (endTime - startTime) + " ns");
@@ -240,7 +253,8 @@ public class LineReader {
 				//searching face in facemap using the face's name, after object would have found - program would add face to set.
 				facetmp.add(facemap.get(line));
 			}
-			cellmap.put(cellName, new Cell(cellName, facetmp)); //putting the item into a cellmap, key = name : value = object
+			if (cellmap.containsKey(cellName)) cellmap.get(cellName).faces = facetmp;
+			else cellmap.put(cellName, new Cell(cellName, facetmp)); //putting the item into a cellmap, key = name : value = object
 		}
 		endTime = System.nanoTime();
 		if (!checker) System.out.println("To build a facemap from shadows cell's set, it was spent " + (endTime - startTime) + " ns");
@@ -287,16 +301,26 @@ public class LineReader {
 	}
 	
 	public void removeLogic(Set<String> tmpSet) {
-		HashSet<Node> removeNode = new HashSet<>();
-		HashSet<Edge> removeEdge = new HashSet<>();
-		HashSet<Face> removeFace = new HashSet<>();
-		HashSet<Cell> removeCell = new HashSet<>();
 		for (String line : tmpSet) {
-			if (nodemap.containsKey(line)) removeNode.add(nodemap.get(line));
-			else if (edgemap.containsKey(line)) removeEdge.add(edgemap.get(line));
-			else if (facemap.containsKey(line)) removeFace.add(facemap.get(line));
-			else if (cellmap.containsKey(line)) removeCell.add(cellmap.get(line));
+			if (nodemap.containsKey(line)) {
+				nodemap.remove(line);
+				for (Entry<String, Edge> pair : edgemap.entrySet()) {
+					Edge edge = pair.getValue();
+					if (edge.node1.equals(nodemap.get(line))) edge.node1 = null;
+					else if (edge.node2.equals(nodemap.get(line))) edge.node2 = null;
+				}
+			}
+			else if (edgemap.containsKey(line)) edgemap.remove(line);
+			else if (facemap.containsKey(line)) facemap.remove(line);
+			else if (cellmap.containsKey(line)) cellmap.remove(line);
+			else {
+				errors.add("The " + line + " element to be deleted is missing from the system");
+				break;
+			}
 		}
+	}
+	
+	public void removeNode (String nodeName) {
 	}
 	
 	public void outputTables() {

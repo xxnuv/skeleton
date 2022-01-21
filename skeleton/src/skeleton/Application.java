@@ -22,7 +22,7 @@ import elements.Node;
  *
  */
 public class Application {
-	public static String dataFileName = "room_with_inner_cell";
+	public static String dataFileName = "cube_without_octant";
 	public static String additionalFile = "inner_cell";
 
 	public static void main(String[] args) throws IOException {

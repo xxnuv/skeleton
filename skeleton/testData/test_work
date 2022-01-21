@@ -1,0 +1,27 @@
+session, the room
+node, n1, 0, 0, 0
+node, n2, 1, 0, 0
+node, n3, 2, 0, 0
+edge, e1, n1, n2
+edge, e2, n3, n2
+face, f1, e1, e2
+cell, c1, f1
+do
+table, cell, face
+table, cell, edge
+
+node, n9, -999, -999, -999
+edge, e5, n1, n9
+face, f3, e1, e2, e5
+cell, c1, f1, f3
+do
+
+table, cell, face
+table, cell, edge
+
+remove, e6
+face, f3, e1, e2
+do
+table, face, edge
+table, cell, edge
+end
